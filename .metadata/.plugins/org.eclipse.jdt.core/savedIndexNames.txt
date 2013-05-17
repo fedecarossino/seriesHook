@@ -1,0 +1,8 @@
+INDEX VERSION 1.126+/Users/fcarossino/Desktop/workspaceAndroid/.metadata/.plugins/org.eclipse.jdt.core
+3245965744.index
+2613154081.index
+947867671.index
+83074625.index
+763485703.index
+151689991.index
+647615970.index

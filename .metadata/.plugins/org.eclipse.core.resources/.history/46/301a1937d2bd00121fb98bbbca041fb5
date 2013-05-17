@@ -1,0 +1,123 @@
+package com.menu;
+ 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+ 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+ 
+import android.util.Log;
+ 
+public class JSONParser {
+ 
+    static InputStream is = null;
+    static JSONObject jObj = null;
+    static String json = "";
+ 
+    // constructor
+    public JSONParser() {
+ 
+    }
+ 
+    // function get json from url
+    // by making HTTP POST or GET mehtod
+    public JSONObject makeHttpRequest(String url, String method,
+            List<NameValuePair> params) throws JSONException {
+ 
+    	JSONObject json = new JSONObject();
+        // Making HTTP request
+        try {
+ 
+            // check for request method
+            if(method == "POST"){
+                // request method is POST
+                // defaultHttpClient
+                DefaultHttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost(url);
+                httpPost.setEntity(new UrlEncodedFormEntity(params));
+ 
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                is = httpEntity.getContent();
+ 
+            }else if(method == "GET"){
+            	json= new JSONObject(getAPI(url));
+            }
+        }catch (ClientProtocolException e) {
+			Log.e("ClientProtocolException", e.toString());
+		}catch (IOException e) {
+			Log.e("IO exception", e.toString());
+		}            
+ 
+        return json;
+ 
+    }
+    
+	public String getAPI(String url){
+		// http get client
+        	HttpClient client=new DefaultHttpClient();
+        	HttpGet getRequest=new HttpGet();
+
+        	try {
+        		// construct a URI object
+				getRequest.setURI(new URI(url));
+			} catch (URISyntaxException e) {
+				Log.e("URISyntaxException", e.toString());
+			}
+
+			// buffer reader to read the response
+        	BufferedReader in=null;
+        	// the service response
+        	HttpResponse response=null;
+			try {
+				// execute the request
+				response = client.execute(getRequest);
+			} catch (ClientProtocolException e) {
+				Log.e("ClientProtocolException", e.toString());
+			} catch (IOException e) {
+				Log.e("IO exception", e.toString());
+			}
+        	try {
+				in=new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			} catch (IllegalStateException e) {
+				Log.e("IllegalStateException", e.toString());
+			} catch (IOException e) {
+				Log.e("IO exception", e.toString());
+			}
+        	StringBuffer buff=new StringBuffer("");
+        	String line="";
+        	try {
+				while((line=in.readLine())!=null)
+				{
+					buff.append(line);
+				}
+			} catch (IOException e) {
+				Log.e("IO exception", e.toString());
+			}
+
+        	try {
+				in.close();
+			} catch (IOException e) {
+				Log.e("IO exception", e.toString());
+			}
+        	// response, need to be parsed
+        	Log.e("JSON: ", buff.toString());
+        	return buff.toString();
+	}
+}

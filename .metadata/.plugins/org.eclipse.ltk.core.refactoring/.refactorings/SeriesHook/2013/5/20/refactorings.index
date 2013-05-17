@@ -1,0 +1,17 @@
+1368584386613	Delete element
+1368585318335	Delete element
+1368585326120	Delete element
+1368665242019	Rename resource 'mainShows.xml'
+1368674452197	Rename field 'INBOX_URL'
+1368676466110	Rename type 'InboxActivity'
+1368676512138	Rename resource 'inbox_list_item.xml'
+1368676530569	Rename resource 'inbox_list.xml'
+1368678562817	Rename field 'outboxList'
+1368678583765	Rename field 'inboxList'
+1368678999066	Rename resource 'my_shows_list_item.xml'
+1368679017037	Rename resource 'my_shows_list.xml'
+1368679056939	Rename resource 'outbox_list_item.xml'
+1368679076723	Rename resource 'outbox_list.xml'
+1368679092901	Rename type 'MyShowsActivity'
+1368679100932	Rename type 'OutboxActivity'
+1368679139982	Rename field 'OUTBOX_URL'
